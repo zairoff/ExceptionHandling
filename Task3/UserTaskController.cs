@@ -32,15 +32,7 @@ namespace Task3
                 _taskService.AddTaskForUser(userId, task);
                 return null;
             }
-            catch (InvalidUserException ex)
-            {
-                return ex.Message;
-            }
-            catch(UserNotFoundException ex)
-            {
-                return ex.Message;
-            }
-            catch (ConflictException ex)
+            catch (CustomException ex)
             {
                 return ex.Message;
             }

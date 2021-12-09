@@ -5,13 +5,13 @@ using System.Text;
 namespace Task3.Exceptions
 {
     [Serializable]
-    public class InvalidUserException : Exception
+    public class CustomException : Exception
     {
-        public InvalidUserException()
+        public CustomException()
         {
         }
 
-        public InvalidUserException(string message) : base(message)
+        public CustomException(string message) : base(message)
         {
         }
     }
