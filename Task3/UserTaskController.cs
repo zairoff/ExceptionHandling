@@ -1,12 +1,13 @@
 ﻿using Task3.DoNotChange;
+using Task3.Exceptions;
 
 namespace Task3
 {
     public class UserTaskController
     {
-        private readonly UserTaskService _taskService;
+        private readonly IUserTaskService _taskService;
 
-        public UserTaskController(UserTaskService taskService)
+        public UserTaskController(IUserTaskService taskService)
         {
             _taskService = taskService;
         }
@@ -25,18 +26,24 @@ namespace Task3
 
         private string GetMessageForModel(int userId, string description)
         {
-            var task = new UserTask(description);
-            int result = _taskService.AddTaskForUser(userId, task);
-            if (result == -1)
-                return "Invalid userId";
-
-            if (result == -2)
-                return "User not found";
-
-            if (result == -3)
-                return "The task already exists";
-
-            return null;
+            try
+            {
+                var task = new UserTask(description);
+                _taskService.AddTaskForUser(userId, task);
+                return null;
+            }
+            catch (InvalidUserException ex)
+            {
+                return ex.Message;
+            }
+            catch(UserNotFoundException ex)
+            {
+                return ex.Message;
+            }
+            catch (ConflictException ex)
+            {
+                return ex.Message;
+            }
         }
     }
 }
